@@ -5,7 +5,9 @@ import {
   PieChart, Pie, Cell, LineChart, Line, Legend
 } from "recharts";
 
-const API = axios.create({ baseURL: "http://127.0.0.1:8080" });
+const API = axios.create({ 
+  baseURL: import.meta.env.VITE_API_URL || "http://127.0.0.1:8080" 
+});
 
 const COLORS = ["#22c55e", "#ef4444", "#f97316", "#3b82f6"];
 
