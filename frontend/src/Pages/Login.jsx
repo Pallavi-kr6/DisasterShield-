@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 const API = axios.create({ 
-  baseURL: import.meta.env.VITE_API_URL || "http://127.0.0.1:8080" 
+  baseURL: import.meta.env.VITE_API_URL || "http://127.0.0.1:8000" 
 });
 
 
@@ -12,21 +12,39 @@ export default function Login({ onLogin }) {
   const [error, setError]       = useState("");
   const [loading, setLoading]   = useState(false);
 
-  const handleSubmit = async () => {
-    setError("");
-    if (!username || !password) { setError("Enter username and password."); return; }
-    setLoading(true);
-    try {
-      const form = new URLSearchParams();
-      form.append("username", username);
-      form.append("password", password);
-      const res = await API.post("/auth/login", form);
-      onLogin(res.data.access_token);
-    } catch (e) {
-      setError(e.response?.data?.detail || "Invalid credentials.");
-    }
-    setLoading(false);
-  };
+const handleSubmit = async () => {
+  setError("");
+
+  if (!username || !password) {
+    setError("Enter username and password.");
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    const form = new URLSearchParams();
+    form.append("username", username);
+    form.append("password", password);
+
+    const res = await API.post(
+      "/auth/login",
+      form,
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
+
+    onLogin(res.data.access_token);
+
+  } catch (e) {
+    setError(e.response?.data?.detail || "Invalid credentials.");
+  }
+
+  setLoading(false);
+};
 
   return (
     <div style={s.page}>

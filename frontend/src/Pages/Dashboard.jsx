@@ -6,7 +6,7 @@ import {
 } from "recharts";
 
 const API = axios.create({ 
-  baseURL: import.meta.env.VITE_API_URL || "http://127.0.0.1:8080" 
+  baseURL: import.meta.env.VITE_API_URL || "http://127.0.0.1:8000" 
 });
 
 const COLORS = ["#22c55e", "#ef4444", "#f97316", "#3b82f6"];
