@@ -31,11 +31,10 @@ TOKEN_EXPIRE_MINUTES = 60 * 8
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
 
-origins = os.getenv(
-    "ALLOWED_ORIGINS",
-    "http://localhost:5173"
-).split(",")
-
+origins = [
+    "http://localhost:5173",
+    "https://disastershield-6.onrender.com"
+]
 # ----------------------------
 # App Init
 # ----------------------------
