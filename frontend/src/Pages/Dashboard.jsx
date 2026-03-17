@@ -89,9 +89,9 @@ export default function Dashboard({ onLogout, token }) {
 
         <nav style={s.nav}>
           {[
-            { id: "dashboard", icon: "📊", label: "Dashboard" },
-            { id: "predict",   icon: "🔍", label: "Predict" },
-            { id: "history",   icon: "📋", label: "History" },
+            { id: "dashboard", icon: "", label: "Dashboard" },
+            { id: "predict",   icon: "", label: "Predict" },
+            { id: "history",   icon: "", label: "History" },
           ].map(item => (
             <button key={item.id}
               onClick={() => setTab(item.id)}
@@ -112,7 +112,7 @@ export default function Dashboard({ onLogout, token }) {
         <div style={s.topbar}>
           <div>
             <div style={s.pageTitle}>
-              {tab === "dashboard" ? "📊 Overview" : tab === "predict" ? "🔍 Predict Payout" : "📋 Payout History"}
+              {tab === "dashboard" ? " Overview" : tab === "predict" ? " Predict Payout" : "Payout History"}
             </div>
             <div style={s.pageSub}>DisasterShield Admin Panel</div>
           </div>
