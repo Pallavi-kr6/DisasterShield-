@@ -357,30 +357,7 @@ VITE_API_URL = <backend-url>
 * Integration with real disaster datasets
 * Mobile-responsive UI enhancements
 * Support for more cities and dynamic data sources
-* Cloud database (PostgreSQL) for scalability
-
----
-Screenshots
-This section showcases the core interfaces of the application.
-
-Login Page
-
-![Login Page](./screenshots/login.png)
-Dashboard
-
- 
-Prediction Form
-
-Payout Result
-
- 
-Payout History
-
- 
- 
- 
-
- 
+* Cloud database (PostgreSQL) for scalability 
 ## Conclusion
 
 DisasterShield demonstrates how machine learning can be integrated into real-world systems to improve fairness, efficiency, and transparency. It replaces manual, error-prone processes with a structured, automated pipeline that ensures only legitimate claims are approved and compensated accurately.
