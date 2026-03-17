@@ -264,7 +264,24 @@ http://127.0.0.1:8080/docs
 ```
 
 ---
+Screenshots
+This section showcases the core interfaces of the application.
 
+Login Page
+
+![Login](./screenshots/login.png)
+Dashboard
+
+![Dashboard](./screenshots/dashboard.png)
+Prediction Form
+
+![Predict](./screenshots/predict.png)
+ 
+Payout History
+
+![History](./screenshots/history.png)
+
+---
 ### Step 3: Frontend Setup
 
 ```bash
