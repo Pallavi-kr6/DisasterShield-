@@ -264,22 +264,19 @@ http://127.0.0.1:8080/docs
 ```
 
 ---
-Screenshots
-This section showcases the core interfaces of the application.
+## Screenshots
 
-Login Page
+### Dashboard
+![Dashboard](./Screenshots/Dashboard.png)
 
-![Login](./screenshots/login.png)
-Dashboard
+### History
+![History](./Screenshots/History.png)
 
-![Dashboard](./screenshots/dashboard.png)
-Prediction Form
+### Prediction
+![Prediction](./Screenshots/Predict.png)
 
-![Predict](./screenshots/predict.png)
- 
-Payout History
-
-![History](./screenshots/history.png)
+### Login
+![Login](./Screenshots/login.png)
 
 ---
 ### Step 3: Frontend Setup
