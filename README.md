@@ -1,7 +1,14 @@
- 
 # DisasterShield
 
 ## AI-Powered Disaster Compensation and Fraud Detection System
+
+ **Live Demo:**
+https://disastershield-6.onrender.com/
+
+**Repository:**
+https://github.com/Pallavi-kr6/DisasterShield
+
+---
 
 DisasterShield is a full-stack web application designed to automate and improve the process of compensating workers affected by natural disasters. The system leverages machine learning to estimate financial loss, assess disaster risk, and detect fraudulent or anomalous claims before approving payouts.
 
@@ -19,8 +26,6 @@ In disaster scenarios, governments and organizations face three major challenges
 
 DisasterShield addresses these issues by combining machine learning models with a real-time web dashboard to automate decision-making and ensure fair compensation.
 
-Live Demo: https://disastershield-6.onrender.com/
-Repository: https://github.com/Pallavi-kr6/DisasterShield
 
 
 ---
