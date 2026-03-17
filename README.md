@@ -19,6 +19,10 @@ In disaster scenarios, governments and organizations face three major challenges
 
 DisasterShield addresses these issues by combining machine learning models with a real-time web dashboard to automate decision-making and ensure fair compensation.
 
+Live Demo: https://disastershield-6.onrender.com/
+Repository: https://github.com/Pallavi-kr6/DisasterShield
+
+
 ---
 
 ## Key Features
