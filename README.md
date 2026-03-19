@@ -8,13 +8,13 @@
  ### Login / Signup
 Users can register or login to the platform easily.
 
-![Signup Screen](screenshots/signup.png)
-![Login Screen](screenshots/login.png)
+![Signup Screen](Screenshots/signup.png)
+![Login Screen](Screenshots/login.png)
 
 ### Worker Dashboard
 The dashboard shows risk level, predicted income loss, trigger status, and trust-based payout information.
 
-![Dashboard](screenshots/dashboard.png)
+![Dashboard](Screenshots/dashboard.png)
 
  
 
