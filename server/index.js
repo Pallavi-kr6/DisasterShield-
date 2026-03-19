@@ -167,8 +167,10 @@ app.post('/api/analyze', verifyToken, checkRole('user'), async (req, res) => {
   const parsed = analyzeSchema.safeParse(req.body || {});
   if (!parsed.success) return res.status(422).json({ detail: parsed.error.issues });
 
-  try {
+try {
     const supabase = getSupabase();
+
+    let aiPayload;
 
     // 1) Determine city (prefer body, then user profile)
     const userCity = req.body?.city || req.user?.city || req.user?.name ? null : null;
@@ -190,10 +192,10 @@ app.post('/api/analyze', verifyToken, checkRole('user'), async (req, res) => {
     const gps = await reverseGeocodeCity(parsed.data.lat, parsed.data.lon);
     const loc = await getLocationFromRequest(req);
     const detected_city = (gps.detected_city || loc.city || null);
-    const location_mismatch = !!(detected_city && detected_city.toLowerCase() !== city.toLowerCase());
+const location_mismatch = !!(detected_city && detected_city.toLowerCase() !== city.toLowerCase());
 
     // 5) Call AI pipeline with auto-fed values
-    const aiPayload = {
+    aiPayload = {
       city,
       rainfall: Number(weather.rainfall),
       temperature: Number(weather.temperature),
@@ -201,9 +203,9 @@ app.post('/api/analyze', verifyToken, checkRole('user'), async (req, res) => {
       delivery_drop,
       expected_income: Number(parsed.data.expected_income),
     };
-  const r = await axios.post(`${AI_URL}/predict-all`, aiPayload, {
-  timeout: 30000, // increase to 30s
-});
+    const r = await axios.post(`${AI_URL}/predict-all`, aiPayload, {
+      timeout: 30000, // increase to 30s
+    });
     const ml = r.data;
 
     // 6) Adversarial fraud enhancements (market crash defenses)
