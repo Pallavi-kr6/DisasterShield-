@@ -8,8 +8,8 @@
       "role": "user",
       "city": "Mumbai",
       "platform": "ZOMATO_SWIGGY",
-      "last_claim_time": "2026-03-19T06:39:45.863Z",
-      "fraud_count": 4
+      "last_claim_time": "2026-03-19T12:37:16.470Z",
+      "fraud_count": 5
     }
   ],
   "claims": [
@@ -305,6 +305,43 @@
       "final_payout": 0,
       "timestamp": "2026-03-19T06:39:45.863Z",
       "created_at": "2026-03-19T06:39:45.863Z"
+    },
+    {
+      "id": "id_e19794f904501_19d0619a236",
+      "user_id": "id_62668543dfa408_19d0489beb9",
+      "city": "Mumbai",
+      "rainfall": 5,
+      "temperature": 30,
+      "aqi": 80,
+      "delivery_drop": 0.13166666666666665,
+      "detected_city": null,
+      "fraud_signals": {
+        "location_mismatch": false,
+        "repeat_fraud": true,
+        "rapid_claims": false,
+        "abnormal_claim_spike": false,
+        "identical_behavior_cluster": false,
+        "repeated_trigger_claims": false
+      },
+      "penalties_applied": {
+        "location_mismatch_penalty": 0,
+        "repeat_fraud_penalty": 0.3,
+        "rapid_claims_penalty": 0,
+        "spike_penalty": 0,
+        "cluster_penalty": 0,
+        "repeated_penalty": 0
+      },
+      "risk_level": "Low",
+      "predicted_loss": 928.63,
+      "payout_amount": 650.04,
+      "trigger_score": 0,
+      "fraud_score": 0.8186,
+      "fraud_flag": true,
+      "trust_score": 0,
+      "decision": "REJECTED",
+      "final_payout": 0,
+      "timestamp": "2026-03-19T12:37:16.470Z",
+      "created_at": "2026-03-19T12:37:16.470Z"
     }
   ],
   "transactions": [
