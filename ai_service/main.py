@@ -1,13 +1,16 @@
+import sys
 import os
-from contextlib import asynccontextmanager
 
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(BASE_DIR)
+
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 
 MODELS_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "models"))
-
 
 class PredictAllRequest(BaseModel):
     city: str = Field(..., examples=["Mumbai"])

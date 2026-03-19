@@ -1,4 +1,4 @@
-## DisasterShield AI Service (FastAPI)
+## DisasterShield Service (FastAPI)
 
 ### Run locally
 

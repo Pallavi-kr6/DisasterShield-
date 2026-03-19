@@ -1,4 +1,4 @@
-## DisasterShield AI — How to run (local)
+## DisasterShield  — How to run (local)
 
 ### Services & ports
 - **AI service (FastAPI, Python)**: `http://127.0.0.1:9000`

@@ -1,7 +1,7 @@
-## DisasterShield AI
+## DisasterShield 
 ### AI‑Powered Parametric Income Protection for Gig Workers (Delivery Partners)
 
-DisasterShield AI is a full‑stack **parametric micro‑insurance prototype** that automatically detects real-world disruptions (heavy rain, high pollution, etc.), predicts income loss using **pre‑trained ML models**, and triggers **instant payouts** with a **Trust‑Based Decision Engine**—without manual claim filing.
+DisasterShield  is a full‑stack **parametric micro‑insurance prototype** that automatically detects real-world disruptions (heavy rain, high pollution, etc.), predicts income loss using **pre‑trained ML models**, and triggers **instant payouts** with a **Trust‑Based Decision Engine**—without manual claim filing.
 
 ---
 
@@ -14,7 +14,7 @@ Delivery partners lose income due to external disruptions (rain, pollution, disa
 ---
 
 ## Our Solution
-DisasterShield AI is a fully automated parametric system:
+DisasterShield is a fully automated parametric system:
 - Auto‑fetches **live/mocked weather** (no manual rainfall/temp/AQI entry)
 - Runs **pre‑trained ML** to score risk and predict income loss
 - Detects parametric disruption triggers
@@ -83,7 +83,7 @@ Used by the FastAPI service:
 ---
 
 ## Fraud Detection & Market Crash Defense (Very Important)
-DisasterShield AI uses **defense‑in‑depth**: the ML fraud score is enhanced with real-world and adversarial signals.
+DisasterShield uses **defense‑in‑depth**: the ML fraud score is enhanced with real-world and adversarial signals.
 
 ### 1) Location mismatch detection (Anti‑spoofing)
 - Frontend captures GPS via `navigator.geolocation` → sends `lat/lon`
@@ -145,7 +145,7 @@ Instead of blanket rejection:
 ### 1) Clone repo
 ```bash
 git clone <your-repo-url>
-cd DisasterShield/DisasterShield
+cd DisasterShield 
 ```
 
 ### 2) Install dependencies

@@ -29,7 +29,7 @@ function AppInner() {
 
   useEffect(() => { setApiToken(token); }, [token]);
 
-  const title = 'DisasterShield AI';
+  const title = 'DisasterShield';
   const subtitle = useMemo(() => {
     if (!user) return 'Login to continue';
     return user.role === 'admin' ? 'Admin Dashboard' : 'Worker Dashboard';
