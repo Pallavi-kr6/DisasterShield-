@@ -19,10 +19,6 @@ const platformOptions = [
 export function WorkerDashboard() {
   const [form, setForm] = useState({
     city: 'Mumbai',
-    rainfall: 110,
-    temperature: 38,
-    aqi: 240,
-    delivery_drop: 0.55,
     expected_income: 5000,
     platform: 'ZOMATO_SWIGGY',
     coverage_pct: 0.7,
@@ -35,6 +31,8 @@ export function WorkerDashboard() {
   const [history, setHistory] = useState({ claims: [], transactions: [] });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [weatherLoading, setWeatherLoading] = useState(false);
+  const [geo, setGeo] = useState({ lat: null, lon: null, status: 'idle' });
 
   const savingsData = useMemo(() => {
     const predictedLoss = Number(ai?.predicted_loss || 0);
@@ -50,15 +48,14 @@ export function WorkerDashboard() {
 
   async function runAnalyze() {
     setLoading(true);
+    setWeatherLoading(true);
     setError('');
     setEventResult(null);
     try {
       const r = await api.post('/api/analyze', {
         city: form.city,
-        rainfall: Number(form.rainfall),
-        temperature: Number(form.temperature),
-        aqi: Number(form.aqi),
-        delivery_drop: Number(form.delivery_drop),
+        lat: geo.lat,
+        lon: geo.lon,
         expected_income: Number(form.expected_income),
       });
       setAi(r.data);
@@ -77,6 +74,7 @@ export function WorkerDashboard() {
       setError(toDisplayError(e?.response?.data?.detail || e?.response?.data?.error || e?.message));
     } finally {
       setLoading(false);
+      setWeatherLoading(false);
     }
   }
 
@@ -97,6 +95,20 @@ export function WorkerDashboard() {
 
   useEffect(() => {
     fetchHistory();
+    if (!navigator.geolocation) {
+      setGeo((g) => ({ ...g, status: 'unavailable' }));
+      return;
+    }
+    setGeo((g) => ({ ...g, status: 'requesting' }));
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setGeo({ lat: pos.coords.latitude, lon: pos.coords.longitude, status: 'ok' });
+      },
+      () => {
+        setGeo((g) => ({ ...g, status: 'denied' }));
+      },
+      { enableHighAccuracy: false, timeout: 8000 },
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -129,26 +141,26 @@ export function WorkerDashboard() {
             <input className="input" value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} />
           </Field>
 
-          <div className="grid grid-cols-2 gap-3">
-            <Field label="Rainfall (mm)">
-              <input className="input" type="number" value={form.rainfall}
-                onChange={(e) => setForm({ ...form, rainfall: e.target.value })} />
-            </Field>
-            <Field label="Temperature (°C)">
-              <input className="input" type="number" value={form.temperature}
-                onChange={(e) => setForm({ ...form, temperature: e.target.value })} />
-            </Field>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <Field label="AQI">
-              <input className="input" type="number" value={form.aqi}
-                onChange={(e) => setForm({ ...form, aqi: e.target.value })} />
-            </Field>
-            <Field label="Delivery Drop (0–1)">
-              <input className="input" type="number" step="0.01" value={form.delivery_drop}
-                onChange={(e) => setForm({ ...form, delivery_drop: e.target.value })} />
-            </Field>
+          <div className="rounded-lg border border-slate-800 bg-slate-950/40 p-3">
+            <div className="label">Live weather (auto)</div>
+            <div className="text-sm text-slate-300 mt-1">
+              {weatherLoading ? (
+                <>Fetching live weather data…</>
+              ) : ai?.weather ? (
+                <>
+                  Rain: <b className="text-slate-100">{ai.weather.rainfall}</b>mm · Temp:{' '}
+                  <b className="text-slate-100">{ai.weather.temperature}</b>°C · AQI:{' '}
+                  <b className="text-slate-100">{ai.weather.aqi}</b>{' '}
+                  <span className="text-slate-500">({ai.weather.source})</span>
+                </>
+              ) : (
+                <>Run “Check Risk” to fetch.</>
+              )}
+            </div>
+            <div className="text-xs text-slate-500 mt-2">
+              GPS: {geo.status === 'ok' ? 'captured' : geo.status === 'denied' ? 'denied' : geo.status}
+              {ai?.detected_city ? <> · Detected city: <b className="text-slate-300">{ai.detected_city}</b></> : null}
+            </div>
           </div>
 
           <Field label="Expected Weekly Income (₹)">
@@ -216,6 +228,25 @@ export function WorkerDashboard() {
               <Stat label="Decision" value={ai ? (ai.decision || '—') : '—'} />
               <Stat label="Final Payout" value={ai ? `₹${ai.final_payout ?? 0}` : '—'} />
             </div>
+            {ai?.fraud_signals ? (
+              <div className="mt-4 rounded-lg border border-slate-800 bg-slate-950/40 p-3">
+                <div className="label">Fraud Alerts & Penalties</div>
+                <div className="text-xs text-slate-300 mt-2">
+                  {ai.fraud_signals.location_mismatch ? <div>• Location mismatch detected (+0.4)</div> : null}
+                  {ai.fraud_signals.repeat_fraud ? <div>• Repeat fraud pattern detected (+0.3)</div> : null}
+                  {ai.fraud_signals.rapid_claims ? <div>• Multiple rapid claims detected (+0.2)</div> : null}
+                  {ai.fraud_signals.abnormal_claim_spike ? <div>• Abnormal claim spike detected (+0.15)</div> : null}
+                  {ai.fraud_signals.identical_behavior_cluster ? <div>• Identical behavior cluster detected (+0.15)</div> : null}
+                  {ai.fraud_signals.repeated_trigger_claims ? <div>• Repeated trigger claims detected (+0.10)</div> : null}
+                  {Object.entries(ai.fraud_signals).filter(([k, v]) => v === true && !k.endsWith('_penalty')).length === 0 ? (
+                    <div>No fraud alerts.</div>
+                  ) : null}
+                </div>
+                <div className="text-xs text-slate-400 mt-3">
+                  Updated fraud score: <b className="text-slate-100">{String(ai.fraud_score)}</b>
+                </div>
+              </div>
+            ) : null}
             {ai?.trust_score != null ? (
               <div className="mt-4">
                 <div className="label mb-1">Trust score</div>

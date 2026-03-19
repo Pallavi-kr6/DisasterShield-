@@ -50,6 +50,42 @@ DisasterShield addresses these issues by combining machine learning models with 
 * Isolation Forest detects abnormal or inconsistent inputs
 * Claims flagged as suspicious are automatically rejected
 
+---
+
+## Adversarial Defense & Anti-Spoofing Strategy (Market Crash Ready)
+
+This prototype is designed to remain fair for genuine workers while resisting coordinated fraud rings.
+
+### 1) Live / Mocked Weather Auto-Feed (No manual weather inputs)
+- Worker does **not** enter rainfall/temperature/AQI manually.
+- Backend fetches these via **OpenWeatherMap** (or falls back to mocks if API fails).
+- ML pipeline is auto-fed with:
+  - `rainfall`, `temperature`, `aqi`, simulated `delivery_drop`, `expected_income`
+
+### 2) Location Validation (Anti-spoofing)
+- Backend compares:
+  - **declared city** (profile / request)
+  - **observed client city** (mock header `x-client-city` or IP-based lookup)
+- If mismatch → `location_mismatch` signal and penalty added to fraud score.
+
+### 3) Fraud Ring Detection (Coordinated attack defense)
+We add adversarial signals on top of the ML fraud model output:
+- **abnormal_claim_spike**: sudden spike of claims in the last few minutes
+- **identical_behavior_cluster**: many claims with identical (city, AQI, delivery_drop) patterns
+- **repeated_trigger_claims**: repeated triggered claims by the same user in a short window
+
+### 4) Fraud Score Enhancement (Defense-in-depth)
+Final fraud score used for decisions is:
+- `enhanced_fraud_score = base_model_fraud_score + penalties`
+- Flagged if `enhanced_fraud_score > 0.50`
+
+### 5) Trust-Based Decision Engine (Fairness preserved)
+Payout decision is not a blind reject:
+- **APPROVED**: high trust → full payout
+- **PARTIAL**: medium/low trust → reduced payout (still protects worker)
+- **REJECTED**: low trust + no real trigger
+
+
 ### Automated Payout Calculation
 
 * Compensation is calculated using a deterministic formula
@@ -380,5 +416,6 @@ If you want, I can next:
 * Or turn this into a **hackathon-winning pitch + README combo**
 
 Just tell me.
-#   D i s a s t e r _ S h i e l d  
+#   D i s a s t e r _ S h i e l d 
+ 
  
