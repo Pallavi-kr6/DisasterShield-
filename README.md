@@ -14,7 +14,7 @@ Users can register or login to the platform easily.
 ### Worker Dashboard
 The dashboard shows risk level, predicted income loss, trigger status, and trust-based payout information.
 
-![Dashboard](Screenshots/dashboard.png)
+![Dashboard](Screenshots/Dashboard.png)
 
  
 
