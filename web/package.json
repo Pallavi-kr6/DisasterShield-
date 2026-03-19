@@ -15,6 +15,9 @@
     "react-router-dom": "^6.26.2",
     "recharts": "^2.12.7"
   },
+  "engines": {
+  "node": "18.x"
+},
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
