@@ -2,9 +2,21 @@
 ### AI-Powered Parametric Income Protection for Gig Workers (Delivery Partners)
 
  **Live Demo:** https://disastershield-5-yy00.onrender.com/
- 
 
-DisasterShield  is a full‑stack **parametric micro‑insurance prototype** that automatically detects real-world disruptions (heavy rain, high pollution, etc.), predicts income loss using **pre‑trained ML models**, and triggers **instant payouts** with a **Trust‑Based Decision Engine**—without manual claim filing.
+ DisasterShield  is a full‑stack **parametric micro‑insurance prototype** that automatically detects real-world disruptions (heavy rain, high pollution, etc.), predicts income loss using **pre‑trained ML models**, and triggers **instant payouts** with a **Trust‑Based Decision Engine**—without manual claim filing.
+ 
+ ### Login / Signup
+Users can register or login to the platform easily.
+
+![Signup Screen](screenshots/signup.png)
+![Login Screen](screenshots/login.png)
+
+### Worker Dashboard
+The dashboard shows risk level, predicted income loss, trigger status, and trust-based payout information.
+
+![Dashboard](screenshots/dashboard.png)
+
+ 
 
 ---
 
