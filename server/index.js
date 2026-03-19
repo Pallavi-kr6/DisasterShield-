@@ -201,7 +201,9 @@ app.post('/api/analyze', verifyToken, checkRole('user'), async (req, res) => {
       delivery_drop,
       expected_income: Number(parsed.data.expected_income),
     };
-    const r = await axios.post(`${AI_URL}/predict-all`, aiPayload, { timeout: 15_000 });
+  const r = await axios.post(`${AI_URL}/predict-all`, aiPayload, {
+  timeout: 30000, // increase to 30s
+});
     const ml = r.data;
 
     // 6) Adversarial fraud enhancements (market crash defenses)
@@ -464,7 +466,9 @@ app.post('/api/trigger', verifyToken, checkRole('user'), async (req, res) => {
 
   let ai;
   try {
-    const r = await axios.post(`${AI_URL}/predict-all`, analyzePayload, { timeout: 15_000 });
+    const r = await axios.post(`${AI_URL}/predict-all`, aiPayload, {
+  timeout: 30000, // increase to 30s
+});
     ai = r.data;
   } catch (e) {
     return res.status(502).json({ error: 'AI_SERVICE_ERROR', detail: e?.message || String(e) });
@@ -560,7 +564,9 @@ app.post('/api/fraud-check', async (req, res) => {
   if (!parsed.success) return res.status(422).json({ detail: parsed.error.issues });
 
   try {
-    const r = await axios.post(`${AI_URL}/predict-all`, parsed.data, { timeout: 15_000 });
+    const r = await axios.post(`${AI_URL}/predict-all`, aiPayload, {
+  timeout: 30000, // increase to 30s
+});
     res.json({ fraud_flagged: !!r.data?.fraud_flagged, fraud_score: r.data?.fraud_score });
   } catch (e) {
     res.status(502).json({ error: 'AI_SERVICE_ERROR', detail: e?.message || String(e) });
