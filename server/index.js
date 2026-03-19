@@ -466,7 +466,7 @@ app.post('/api/trigger', verifyToken, checkRole('user'), async (req, res) => {
 
   let ai;
   try {
-    const r = await axios.post(`${AI_URL}/predict-all`, aiPayload, {
+    const r = await axios.post(`${AI_URL}/predict-all`, analyzePayload, {
   timeout: 30000, // increase to 30s
 });
     ai = r.data;
@@ -564,7 +564,7 @@ app.post('/api/fraud-check', async (req, res) => {
   if (!parsed.success) return res.status(422).json({ detail: parsed.error.issues });
 
   try {
-    const r = await axios.post(`${AI_URL}/predict-all`, aiPayload, {
+    const r = await axios.post(`${AI_URL}/predict-all`, req.body, {
   timeout: 30000, // increase to 30s
 });
     res.json({ fraud_flagged: !!r.data?.fraud_flagged, fraud_score: r.data?.fraud_score });
