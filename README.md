@@ -284,5 +284,5 @@ No training is done in this system—only inference using pre-trained models:
 DisasterShield is not just an insurance prototype.
 
 It is a **resilient, adversarial-aware system** that answers a critical question:
-
+How do you build financial protection systems when users themselves can try to game the system?
  
