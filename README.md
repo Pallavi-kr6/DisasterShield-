@@ -90,7 +90,7 @@ DisasterShield is built to **detect behavior, not just location**.
 We use a **multi-signal trust model**, not a single GPS check.
 
 $$
-\text{trust_score} = 1 - \text{enhanced_fraud_score}
+trust\_score = 1 - enhanced\_fraud\_score
 $$
 
 A genuine worker shows:
