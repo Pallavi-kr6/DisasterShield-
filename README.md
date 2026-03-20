@@ -4,19 +4,12 @@
  **Live Demo:** https://disastershield-5-yy00.onrender.com/
 
  DisasterShield  is a full‑stack **parametric micro‑insurance prototype** that automatically detects real-world disruptions (heavy rain, high pollution, etc.), predicts income loss using **pre‑trained ML models**, and triggers **instant payouts** with a **Trust‑Based Decision Engine**—without manual claim filing.
- 
- ### Login / Signup
-Users can register or login to the platform easily.
+ ## 🎥 Demo Video
 
-![Signup Screen](Screenshots/signup.png)
-![Login Screen](Screenshots/login.png)
-
-### Worker Dashboard
-The dashboard shows risk level, predicted income loss, trigger status, and trust-based payout information.
-
-![Dashboard](Screenshots/Dashboard.png)
-
- 
+<video width="800" controls>
+  <source src="Screenshots/Devtrails.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video> 
 
 ---
 
