@@ -3,9 +3,11 @@
 # DisasterShield
 
 ### AI-Powered Parametric Income Protection for Gig Workers (Delivery Partners)
+**Live Demo:**  
+https://disastershield-5-yy00.onrender.com/
 
-**Live Demo:** [https://disastershield-5-yy00.onrender.com/](https://disastershield-5-yy00.onrender.com/)
-**Youtube Video:** [https://youtu.be/4tYqDzg-guk?si=To1lQiwU42SJiomD](https://youtu.be/4tYqDzg-guk?si=To1lQiwU42SJiomD)
+**YouTube Video:**  
+https://youtu.be/4tYqDzg-guk?si=To1lQiwU42SJiomD
 
 DisasterShield is a full-stack **parametric micro-insurance prototype** designed to protect gig workers from income shocks caused by real-world disruptions such as heavy rainfall, pollution spikes, or extreme conditions.
 
