@@ -1,301 +1,288 @@
-## DisasterShield 
+ 
+
+# DisasterShield
+
 ### AI-Powered Parametric Income Protection for Gig Workers (Delivery Partners)
 
- **Live Demo:** https://disastershield-5-yy00.onrender.com/
+**Live Demo:** [https://disastershield-5-yy00.onrender.com/](https://disastershield-5-yy00.onrender.com/)
 
- DisasterShield  is a full‑stack **parametric micro‑insurance prototype** that automatically detects real-world disruptions (heavy rain, high pollution, etc.), predicts income loss using **pre‑trained ML models**, and triggers **instant payouts** with a **Trust‑Based Decision Engine**—without manual claim filing. 
- ### Login / Signup
-Users can register or login to the platform easily.
+DisasterShield is a full-stack **parametric micro-insurance prototype** designed to protect gig workers from income shocks caused by real-world disruptions such as heavy rainfall, pollution spikes, or extreme conditions.
+
+Instead of manual claims, the system uses **pre-trained machine learning models + real-time signals** to automatically assess risk and trigger **instant, fair payouts** using a **Trust-Based Decision Engine**.
+
+---
+
+## Product Walkthrough
+
+### Login / Signup
+
+Users can quickly onboard and access the system.
 
 ![Signup Screen](Screenshots/signup.png)
 ![Login Screen](Screenshots/login.png)
 
+---
+
 ### Worker Dashboard
-The dashboard shows risk level, predicted income loss, trigger status, and trust-based payout information.
+
+The dashboard provides a complete overview of:
+
+* Risk level
+* Predicted income loss
+* Trigger status
+* Trust score and final payout
 
 ![Dashboard](Screenshots/Dashboard.png)
-
- 
 
 ---
 
 ## Problem Statement
-Delivery partners lose income due to external disruptions (rain, pollution, disasters). Traditional insurance struggles because:
-- **Claims are manual and slow**
-- **Fraud is easy** (spoofed location, coordinated rings)
-- **Decisions are inconsistent**
+
+Delivery partners lose income due to external disruptions (rain, pollution, disasters). Traditional insurance systems fail because:
+
+* Claims are **manual and slow**
+* Fraud is **easy and scalable** (GPS spoofing, coordinated rings)
+* Decisions are often **inconsistent and opaque**
 
 ---
 
 ## Our Solution
-DisasterShield is a fully automated parametric system:
-- Auto‑fetches **live/mocked weather** (no manual rainfall/temp/AQI entry)
-- Runs **pre‑trained ML** to score risk and predict income loss
-- Detects parametric disruption triggers
-- Applies **anti‑spoofing + adversarial fraud defenses**
-- Computes payout via a fair **Trust‑Based Decision Engine**
-- Persists claims + payouts (Supabase Postgres; local JSON fallback supported)
+
+DisasterShield reimagines insurance as an **automated, AI-driven system**:
+
+* Automatically fetches **live or fallback weather data**
+* Uses **pre-trained ML models** for risk and income prediction
+* Detects **parametric triggers** (no manual claim input)
+* Applies **multi-layer fraud detection and anti-spoofing**
+* Computes payouts using a **Trust-Based Decision Engine**
+* Persists claims and transactions reliably
 
 ---
 
 ## Key Features
-- **Real‑time weather integration** (OpenWeatherMap) with safe mock fallback
-- **AI risk scoring + income loss prediction** (pre‑trained models only)
-- **Parametric trigger engine** (rules + Isolation Forest)
-- **Trust‑Based Decision Engine**: APPROVED / PARTIAL / REJECTED with final payout
-- **Fraud detection + anti‑spoofing**
-  - GPS reverse‑geocoded city vs selected city
-  - rapid claims + repeat attempts escalation
-  - spike/cluster ring detection (“market crash defense”)
-  - penalty breakdown visible in UI
-- **Role‑based authentication**: `user` + `admin` dashboards
-- **Persistence**: history survives refresh (claims + transactions)
+
+* Real-time weather integration with fallback support
+* AI-driven **risk scoring + income loss prediction**
+* Parametric trigger detection (rules + anomaly models)
+* Trust-Based payout decisions: APPROVED / PARTIAL / REJECTED
+* Advanced fraud detection:
+
+  * GPS vs detected city validation
+  * Rapid and repeated claims tracking
+  * Claim spike and fraud ring detection
+* Role-based dashboards (user + admin)
+* Persistent claim history (no data loss on refresh)
+
+---
+
+## Adversarial Defense & Anti-Spoofing Strategy (Critical Upgrade)
+
+### The Problem We Solved
+
+Modern fraud is **coordinated and adversarial**. A group of users can spoof GPS locations simultaneously and drain the system.
+
+DisasterShield is built to **detect behavior, not just location**.
+
+---
+
+### 1) Differentiation: Real Worker vs Spoofed Actor
+
+We use a **multi-signal trust model**, not a single GPS check.
+
+$$
+\text{trust_score} = 1 - \text{enhanced_fraud_score}
+$$
+
+A genuine worker shows:
+
+* Natural movement patterns
+* Irregular claim timing
+* Realistic interaction delays
+
+A spoofed actor shows:
+
+* Perfect/static GPS
+* Synchronized claims
+* Identical behavior across users
+
+---
+
+### 2) Data Beyond GPS (Key Innovation)
+
+To detect fraud rings, we analyze:
+
+#### Behavioral Signals
+
+* Claim frequency
+* Interaction timing
+* Session activity
+
+#### Temporal Signals
+
+* Claim clustering in short windows
+* Sudden spikes across users
+
+#### Environmental Correlation
+
+* Weather vs actual impact consistency
+* Trigger validity over time
+
+#### Device & Network Signals
+
+* IP vs GPS mismatch
+* Device consistency patterns
+
+#### Graph-Based Fraud Detection
+
+We model users as a **network graph**:
+
+* Nodes → users
+* Edges → behavioral similarity
+
+Fraud rings form **dense clusters with identical behavior**, making them detectable.
+
+---
+
+### 3) UX Balance: Fairness for Honest Workers
+
+We avoid harsh rejection and use **progressive trust handling**:
+
+* **High Trust (≥ 0.7)** → Full payout
+* **Medium Trust (0.4–0.7)** → Partial payout
+* **Low Trust (< 0.4)** → Flagged (not blindly rejected)
+
+#### Why this matters:
+
+* Real users may face **network drops during bad weather**
+* System allows **grace tolerance**
+* Ensures **fairness + user trust**
+
+Users also see:
+
+* Fraud signals
+* Penalty breakdown
+* Reason for decisions
+
+---
+
+### 4) Why This Survives the Attack Scenario
+
+In a coordinated attack:
+
+* 500 users spoof same location
+
+Our system detects:
+
+* Synchronized timestamps
+* Identical behavior patterns
+* Lack of movement variation
+* Dense fraud clusters
+
+Result:
+
+* Trust scores drop collectively
+* Payouts reduced or blocked
+* Liquidity pool protected
 
 ---
 
 ## System Architecture
-- **Web UI** (`web/`): React + Tailwind + Recharts dashboards
-- **Backend API** (`server/`): Node.js + Express (auth, orchestration, persistence)
-- **AI Service** (`ai_service/`): Python FastAPI inference wrapper
-- **Models** (`models/`): pre‑trained `.pkl` artifacts + `predict.py`
-- **Database** (`supabase/`): Postgres tables + migrations (optional)
+
+* **Frontend**: React + Tailwind + Recharts
+* **Backend**: Node.js + Express
+* **AI Service**: FastAPI (Python)
+* **Models**: Pre-trained `.pkl` files
+* **Database**: Supabase (optional)
 
 ---
 
 ## Tech Stack
-- **Frontend**: React, Tailwind CSS, Recharts, Vite
-- **Backend**: Node.js, Express, JWT, Zod, Axios
-- **AI Layer**: Python, FastAPI (inference only)
-- **Database**: Supabase (PostgreSQL) *(optional)*
-- **External APIs**: OpenWeatherMap + reverse geocoding *(optional; mocks always available)*
+
+* React, Tailwind CSS, Recharts
+* Node.js, Express, JWT
+* Python, FastAPI
+* Supabase (PostgreSQL)
+* OpenWeatherMap APIs
 
 ---
 
-## AI/ML Models (Very Important)
-**No training happens in this project.** We only load and run pre‑trained artifacts from `models/`.
+## AI/ML Models
 
-### Model artifacts in `models/`
-- **`risk_model.pkl`**: predicts disruption **risk level** (Low/Medium/High)
-- **`income_loss_model.pkl`**: predicts **income loss** (₹)
-- **`isolation_forest.pkl`**: anomaly detector used for trigger validation
-- **`fraud_model.pkl`**: fraud/anomaly scoring model
-- **`anomaly_scaler.pkl`, `fraud_scaler.pkl`**: scalers for anomaly/fraud models
-- **`city_label_encoder.pkl`, `city_le_income.pkl`**: encoders
+No training is done in this system—only inference using pre-trained models:
 
-### Inference entrypoint
-All model inference is done via:
-- `load_models("./models")`
-- `predict_all_api(...)`
-
-Used by the FastAPI service:
-- **`POST /predict-all`** (AI service) returns:
-  - `risk_level`, `risk_prob_high`
-  - `predicted_loss`, `payout_amount`
-  - `triggered`, `trigger_score`, `trigger_reasons`
-  - `fraud_score`, `fraud_flagged`
+* Risk prediction
+* Income loss prediction
+* Fraud scoring
+* Anomaly detection
 
 ---
 
-## Fraud Detection & Market Crash Defense (Very Important)
-DisasterShield uses **defense‑in‑depth**: the ML fraud score is enhanced with real-world and adversarial signals.
+## How It Works
 
-### 1) Location mismatch detection (Anti‑spoofing)
-- Frontend captures GPS via `navigator.geolocation` → sends `lat/lon`
-- Backend reverse‑geocodes to `detected_city`
-- If `detected_city != selected_city`:
-  - `fraud_signals.location_mismatch = true`
-  - **Penalty +0.4** added to final fraud score
-
-### 2) Repeat fraud tracking (Persisted)
-- Tracks prior user behavior (DB or local store):
-  - rejected claims threshold → `repeat_fraud = true`
-  - `users.fraud_count`, `users.last_claim_time` updated
-  - **Penalty +0.3**
-
-### 3) Rapid claim attempts
-- Multiple claims in a short window → `rapid_claims = true`
-- **Penalty +0.2**
-
-### 4) Fraud rings & claim spikes
-- **abnormal_claim_spike**: many claims within a few minutes
-- **identical_behavior_cluster**: many users with identical patterns
-- **repeated_trigger_claims**: repeated triggered attempts by the same user
-
-### 5) Enhanced fraud score
-Final score used for payout decisions:
-
-$$
-enhanced\_fraud\_score = clamp01(model\_fraud\_score + penalties)
-$$
-
-### 6) Trust‑Based Decision Engine (fairness preserved)
-Instead of blanket rejection:
-- **APPROVED**: trust ≥ 0.7 → full payout
-- **PARTIAL**: trust ≥ 0.4 → payout × 0.6; if triggered but low trust → payout × 0.4
-- **REJECTED**: trust < 0.4 and not triggered
+1. User logs in
+2. Clicks **Check Risk**
+3. System fetches weather + validates GPS
+4. AI service predicts risk, loss, fraud
+5. Decision engine computes payout
+6. Data is stored and shown in dashboard
 
 ---
 
-## How It Works (Step‑by‑Step)
-1. User registers / logs in
-2. User clicks **Check Risk**
-3. Backend:
-   - uses city + GPS (`lat/lon`) to detect spoofing
-   - fetches live weather (or mock fallback)
-   - simulates delivery drop
-4. Backend calls AI service `/predict-all`
-5. Fraud defenses + trust decision engine compute:
-   - `decision`, `trust_score`, `final_payout`, `reason`
-6. Saves claim + transaction to DB (Supabase) or local JSON
-7. Dashboard fetches history on load → **refresh does not lose data**
+## Challenges We Faced
+
+* Designing **fraud-resistant architecture under time pressure**
+* Handling **coordinated spoofing attacks**
+* Balancing **security vs fairness**
+* Managing **multi-service integration (Frontend + Backend + AI)**
 
 ---
 
-## Installation & Setup
-### Prerequisites
-- Node.js (LTS recommended)
-- Python 3.10+
+## What We’re Proud Of
 
-### 1) Clone repo
-```bash
-git clone <your-repo-url>
-cd DisasterShield 
-```
-
-### 2) Install dependencies
-#### AI service (Python)
-```bash
-pip install -r ai_service/requirements.txt
-```
-
-#### Backend (Node)
-```bash
-cd server
-npm install
-```
-
-#### Frontend (React)
-```bash
-cd web
-npm install
-```
-
-### 3) Environment variables
-#### Backend (`server/`)
-Required (AI):
-- `AI_URL=http://127.0.0.1:9000`
-- `JWT_SECRET=...`
-
-Optional (for “real” APIs & DB):
-- `SUPABASE_URL=...`
-- `SUPABASE_SERVICE_ROLE_KEY=...`
-- `OPENWEATHER_API_KEY=...`
-- `OPENCAGE_API_KEY=...`
-
-Template: `server/env.example.txt`
-
-#### Frontend (`web/`)
-- `VITE_API_URL=http://127.0.0.1:8000`
-
-Template: `web/env.example.txt`
-
-### 4) Run (3 terminals)
-#### Terminal A — AI service (FastAPI)
-```bash
-uvicorn ai_service.main:app --reload --host 127.0.0.1 --port 9000
-```
-
-#### Terminal B — Backend (Express)
-```bash
-cd server
-set AI_URL=http://127.0.0.1:9000
-npm run dev
-```
-
-#### Terminal C — Frontend (Vite)
-```bash
-cd web
-set VITE_API_URL=http://127.0.0.1:8000
-npm run dev
-```
-
-Open: `http://127.0.0.1:5173`
+* End-to-end working **AI-powered insurance prototype**
+* Real-time **decision-making system**
+* Strong **fraud and adversarial defense design**
+* Clean and intuitive **user experience**
 
 ---
 
-## API Usage
-### Auth
-- **POST** `/api/auth/register`
-- **POST** `/api/auth/login`
-- **GET** `/api/auth/me` *(Bearer token)*
+## What We Learned
 
-### Analyze (automated parametric evaluation)
-- **POST** `/api/analyze` *(user-only, Bearer token)*
-
-Example request:
-```json
-{
-  "city": "Mumbai",
-  "lat": 19.0760,
-  "lon": 72.8777,
-  "expected_income": 5000
-}
-```
-
-### History (persistence)
-- **GET** `/api/claims/:user_id`
-- **GET** `/api/transactions/:user_id`
-
----
-
-## Frontend Overview
-### Worker Dashboard
-- Risk level, premium, predicted loss, trigger status
-- Trust score meter + final payout + reason
-- Fraud alerts + penalty breakdown + detected city
-- Past claims table + total payout saved (persists on refresh)
-
-### Admin Dashboard
-- Fraud alerts, payout totals, city risk visualization (demo)
-
----
-
-## Backend Overview
-Key modules:
-- `server/services/weatherService.js`: live weather (OpenWeather) + mock fallback
-- `server/services/locationService.js`: reverse geocoding + anti-spoofing
-- `server/services/decisionEngine.js`: trust score → decision → final payout
-- `server/localStore.js`: local JSON persistence fallback
-
----
-
-## Database Schema (Basic)
-Core tables:
-- `users`: name, email, password_hash, role, city, platform, fraud_count, last_claim_time
-- `claims`: ML outputs + fraud signals + penalties + decision + final payout
-- `transactions`: payout records linked to claims
-
-Schema and migrations:
-- `supabase/schema.sql`
-- `supabase/migrations/*.sql`
-
----
-
-## Demo Instructions (Judges)
-1. Register a user and login
-2. Allow GPS permissions
-3. Click **Check Risk**
-4. Show:
-   - weather auto-fetch
-   - trigger + ML outputs
-   - fraud penalties applied (try city mismatch)
-   - trust decision + final payout
-5. Refresh → history remains visible
+* Real-world systems must assume **adversarial users**
+* AI is powerful only when combined with **system design**
+* Fraud detection is about **patterns, not single signals**
+* Good UX is critical even in high-risk systems
 
 ---
 
 ## Future Improvements
-- Real delivery/drop data integration (platform APIs)
-- Better fraud ring clustering (graph/community detection)
-- Supabase RLS policies for production-grade multi-tenant security
-- Real payment rails integration (UPI/bank transfer)
+
+* Real delivery platform integrations
+* Advanced graph-based fraud detection
+* Production-grade security policies
+* Real payment integrations (UPI/bank transfers)
+
+---
+
+## Demo Instructions (Judges)
+
+1. Register and login
+2. Allow GPS
+3. Click **Check Risk**
+4. Observe:
+
+   * Weather auto-fetch
+   * ML predictions
+   * Fraud detection signals
+   * Final payout decision
+5. Refresh → data persists
+
+---
+
+## Final Note
+
+DisasterShield is not just an insurance prototype.
+
+It is a **resilient, adversarial-aware system** that answers a critical question:
+
+ 
