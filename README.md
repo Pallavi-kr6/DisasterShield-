@@ -91,7 +91,7 @@ DisasterShield is built to **detect behavior, not just location**.
 We use a **multi-signal trust model**, not a single GPS check.
 
 $$
-\text{trust_score} = 1 - \text{enhanced_fraud_score}
+trust\_score = 1 - enhanced\_fraud\_score
 $$
 
 A genuine worker shows:
@@ -285,5 +285,5 @@ No training is done in this system—only inference using pre-trained models:
 DisasterShield is not just an insurance prototype.
 
 It is a **resilient, adversarial-aware system** that answers a critical question:
-
+How do you build financial protection systems when users themselves can try to game the system?
  
