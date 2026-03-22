@@ -127,15 +127,15 @@ DisasterShield follows a **modular, microservice-inspired architecture** separat
                                │  (.pkl artifacts)    │
                                └──────────────────────┘
 
-                        ▼
+                                      ▼
         ┌──────────────────────────────────────┐
         │        Database Layer                │
-        │  Supabase (PostgreSQL)              │
-        │  - Users                           │
-        │  - Claims                          │
-        │  - Transactions                    │
-        │                                    │
-        │  (Fallback: Local JSON Storage)     │
+        │  Supabase (PostgreSQL)               │
+        │  - Users                             │
+        │  - Claims                            │
+        │  - Transactions                      │
+        │                                      │
+        │  (Fallback: Local JSON Storage)      │
         └──────────────────────────────────────┘
 ```
 
