@@ -1,6 +1,11 @@
  
 
-# DisasterShield
+<h1 align="center">DISASTERSHIELD</h1>
+
+<p align="center">
+  <b>AI-Powered Parametric Income Protection for Gig Workers</b><br/>
+  <i>Real-time Risk Detection • AI Predictions • Instant Payouts</i>
+</p>
 
 ### AI-Powered Parametric Income Protection for Gig Workers (Delivery Partners)
 **Live Demo:**  
@@ -76,7 +81,160 @@ DisasterShield reimagines insurance as an **automated, AI-driven system**:
 * Role-based dashboards (user + admin)
 * Persistent claim history (no data loss on refresh)
 
+--- 
+
+## System Architecture
+
+DisasterShield follows a **modular, microservice-inspired architecture** separating UI, backend logic, and AI inference for scalability, reliability, and clear responsibility boundaries.
+
+```
+                ┌──────────────────────────┐
+                │        Frontend (Web)    │
+                │ React + Tailwind + Vite │
+                │ - Dashboard UI          │
+                │ - Auth (Login/Signup)   │
+                │ - GPS (lat/lon)         │
+                └──────────┬──────────────┘
+                           │ REST API (JSON)
+                           ▼
+                ┌──────────────────────────┐
+                │     Backend (Node.js)    │
+                │ Express API Layer        │
+                │                          │
+                │ - Auth (JWT)             │
+                │ - Weather Fetching       │
+                │ - Location Verification  │
+                │ - Fraud Detection Logic  │
+                │ - Decision Engine        │
+                │ - Persistence Handling   │
+                └───────┬────────┬────────┘
+                        │        │
+        External APIs   │        │ AI Inference
+                        │        ▼
+        ┌───────────────▼───┐  ┌──────────────────────┐
+        │ Weather API       │  │   AI Service         │
+        │ (OpenWeatherMap)  │  │ Python + FastAPI     │
+        │                   │  │                      │
+        │ Reverse Geocoding │  │ - Risk Model         │
+        │ (OpenCage)        │  │ - Income Loss Model  │
+        └───────────────────┘  │ - Isolation Forest   │
+                               │ - Fraud Model        │
+                               └──────────┬───────────┘
+                                          │
+                                          ▼
+                               ┌──────────────────────┐
+                               │  Pre-trained Models  │
+                               │  (.pkl artifacts)    │
+                               └──────────────────────┘
+
+                        ▼
+        ┌──────────────────────────────────────┐
+        │        Database Layer                │
+        │  Supabase (PostgreSQL)              │
+        │  - Users                           │
+        │  - Claims                          │
+        │  - Transactions                    │
+        │                                    │
+        │  (Fallback: Local JSON Storage)     │
+        └──────────────────────────────────────┘
+```
+
 ---
+
+## Architecture Flow (End-to-End)
+
+1. **User Interaction (Frontend)**
+
+   * User logs in and clicks **Check Risk**
+   * Browser captures **GPS coordinates (lat/lon)**
+
+2. **Backend Processing**
+
+   * Validates request using **Zod**
+   * Fetches **weather data** (or fallback mock)
+   * Performs **reverse geocoding** to detect spoofing
+   * Applies **fraud signals (pre-checks)**
+
+3. **AI Inference Layer**
+
+   * Backend calls:
+
+     ```
+     POST /predict-all
+     ```
+   * AI service:
+
+     * Loads `.pkl` models
+     * Returns:
+
+       * risk level
+       * predicted income loss
+       * fraud score
+       * trigger decision
+
+4. **Decision Engine**
+
+   * Combines:
+
+     * ML outputs
+     * Fraud penalties
+     * Trigger signals
+   * Computes:
+
+     * `trust_score`
+     * `decision` (APPROVED / PARTIAL / REJECTED)
+     * `final_payout`
+
+5. **Persistence Layer**
+
+   * Stores:
+
+     * claims
+     * fraud signals
+     * transactions
+   * Uses:
+
+     * **Supabase (PostgreSQL)** OR
+     * **Local JSON fallback**
+
+6. **Frontend Update**
+
+   * Dashboard displays:
+
+     * Risk level
+     * Fraud alerts
+     * Trust score
+     * Final payout
+   * Fetches history → persists across refresh
+
+---
+
+## Key Design Principles
+
+* **Separation of Concerns**
+
+  * UI, backend, and AI are fully decoupled
+
+* **Fail-Safe Architecture**
+
+  * Weather API → fallback mock
+  * Database → local JSON fallback
+
+* **AI as a Service**
+
+  * Models are isolated behind FastAPI
+  * No retraining during runtime
+
+* **Fraud-Resilient by Design**
+
+  * Multi-layer detection (ML + rule-based + behavioral)
+
+* **Scalable & Deployable**
+
+  * Each layer can be deployed independently
+
+---
+ 
 
 ## Adversarial Defense & Anti-Spoofing Strategy (Critical Upgrade)
 
