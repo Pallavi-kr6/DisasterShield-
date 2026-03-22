@@ -7,7 +7,7 @@
   <i>Real-time Risk Detection • AI Predictions • Instant Payouts</i>
 </p>
 
-### AI-Powered Parametric Income Protection for Gig Workers (Delivery Partners)
+ 
 **Live Demo:**  
 https://disastershield-5-yy00.onrender.com/
 
